@@ -1,0 +1,30 @@
+function [rgb_image] = ycucv2rgb(ycucv_image)
+
+    [ nr nc ns ] = size( ycucv_image );
+    
+
+    T_rev = [ 1     -1/4    3/4 ;
+              1     -1/4   -1/4 ;
+              1     3/4    -1/4];
+
+
+    rgb_image = zeros(nr,nc,3);     
+
+    for i = 1:nr
+        for j = 1:nc
+            x1 = zeros(3,1);
+            for k = 1:3
+                x1(k,1) = double( ycucv_image(i,j,k) );
+            end
+            y1 = T_rev * x1;
+            %y1 = round( temp / 1000 );
+            %y1 = round( temp );
+            for k = 1:3
+                rgb_image(i,j,k) = double( y1(k,1) );
+            end
+        end
+    end   
+    
+
+end
+
